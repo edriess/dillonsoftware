@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -145,5 +146,63 @@ public class UserResourceTest {
 		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
 		assertEquals(expectedResponse, response.getContentAsString());
 	}
+
+	@Test
+	public void should_list_sorted_users() throws URISyntaxException, JsonParseException, JsonMappingException, IOException {
+		final Dispatcher dispatcher = MockHelper.createMockDispatcher(userResource);
+
+		final Integer userId = 1;
+		final Integer userId2 = 2;
+		final Integer userId3 = 3;
+
+		final String name = "name1";
+		final String name2 = "a_name2";
+		final String name3 = "z_name3";
+
+		final User expectedUser = new User() {
+			{
+				setId(userId);
+				setName(name);
+			}
+		};
+		final User expectedUser2 = new User() {
+			{
+				setId(userId2);
+				setName(name2);
+			}
+		};
+		final User expectedUser3 = new User() {
+			{
+				setId(userId3);
+				setName(name3);
+			}
+		};
+
+        //add users in the sorted order, as that is what the response should return.
+		final List<User> expectedUsers = new ArrayList<User>() {
+			{
+                add(expectedUser2);
+				add(expectedUser);
+				add(expectedUser3);
+			}
+		};
+
+		final CollectionType resultType = TypeFactory.defaultInstance().constructCollectionType(List.class, User.class);
+		final String expectedResponse = new ObjectMapper().writer().forType(resultType).writeValueAsString(expectedUsers);
+
+		when(userService.listUsers()).thenReturn(expectedUsers);
+
+		final MockHttpRequest request = MockHttpRequest.get("/users");
+		final MockHttpResponse response = new MockHttpResponse();
+
+		dispatcher.invoke(request, response);
+
+		verify(userService).listUsers();
+		verifyNoMoreInteractions(MockHelper.allDeclaredMocks(this));
+
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		assertEquals(expectedResponse, response.getContentAsString());
+	}
+
 
 }
