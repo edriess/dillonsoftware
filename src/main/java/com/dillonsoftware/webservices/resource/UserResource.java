@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -33,6 +34,8 @@ public class UserResource {
 	public Response getUsers() {
 		final List<User> users = userService.listUsers();
 
+		users.sort(new SortUsersByName());
+
 		return Response.status(Response.Status.OK).entity(users).build();
 	}
 
@@ -49,6 +52,14 @@ public class UserResource {
 			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		} else {
 			return Response.status(Response.Status.OK).entity(user).build();
+		}
+	}
+
+
+	class SortUsersByName implements Comparator<User> {
+		@Override
+		public int compare(final User u1, final User u2) {
+			return u1.getName().compareTo(u2.getName());
 		}
 	}
 
