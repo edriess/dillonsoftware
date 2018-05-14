@@ -1,10 +1,5 @@
 package com.dillonsoftware.webservices.resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
-
 import com.dillonsoftware.webservices.bean.Error;
 import com.dillonsoftware.webservices.bean.User;
 import com.dillonsoftware.webservices.service.UserService;
@@ -14,7 +9,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockHttpRequest;
 import org.jboss.resteasy.mock.MockHttpResponse;
@@ -28,12 +22,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
-
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceTest {
@@ -181,7 +176,7 @@ public class UserResourceTest {
         //add users in the sorted order, as that is what the response should return.
 		final List<User> expectedUsers = new ArrayList<User>() {
 			{
-                add(expectedUser2);
+				add(expectedUser2);
 				add(expectedUser);
 				add(expectedUser3);
 			}
