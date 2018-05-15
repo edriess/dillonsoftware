@@ -24,6 +24,10 @@ public class UserService {
 		return userMapper.list();
 	}
 
+	public List<User> findUsers(final String name) {
+		return userMapper.find(name);
+	}
+
 
 	public User getUser(final Integer userId) {
 		return userMapper.fetch(userId);

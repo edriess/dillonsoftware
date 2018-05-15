@@ -199,5 +199,39 @@ public class UserResourceTest {
 		assertEquals(expectedResponse, response.getContentAsString());
 	}
 
+	@Test
+	public void should_find_user() throws URISyntaxException, JsonParseException, JsonMappingException, IOException {
+		final Dispatcher dispatcher = MockHelper.createMockDispatcher(userResource);
+
+		final Integer userId = 1;
+		final String name = "name";
+
+		final User expectedUser = new User() {
+			{
+				setId(userId);
+				setName(name);
+			}
+		};
+
+		final List<User> userList = new ArrayList<>();
+		userList.add(expectedUser);
+
+
+		final String expectedResponse = new ObjectMapper().writer().forType(User.class).writeValueAsString(expectedUser);
+
+		when(userService.findUsers(name)).thenReturn(userList);
+
+		final MockHttpRequest request = MockHttpRequest.get("/users?name=" + name);
+		final MockHttpResponse response = new MockHttpResponse();
+
+		dispatcher.invoke(request, response);
+
+		verify(userService).findUsers(name);
+		verifyNoMoreInteractions(MockHelper.allDeclaredMocks(this));
+
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		assertEquals("[" + expectedResponse + "]", response.getContentAsString());
+	}
+
 
 }

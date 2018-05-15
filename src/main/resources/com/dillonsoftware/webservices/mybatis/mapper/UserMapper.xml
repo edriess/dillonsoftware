@@ -13,4 +13,11 @@
 		where id = #{userId, jdbcType=INTEGER}
 	</select>
 
+	<select id="find" resultType="User">
+		<bind name="name" value="'%' + name + '%'" />
+		select id, name
+		from Users
+		where name like #{name, jdbcType=VARCHAR}
+	</select>
+
 </mapper>
