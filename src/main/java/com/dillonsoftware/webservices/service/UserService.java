@@ -37,5 +37,8 @@ public class UserService {
 		userMapper.add(name);
 	}
 
+	public void removeUser(final Integer userId) {
+		userMapper.remove(userId);
+	}
 
 }

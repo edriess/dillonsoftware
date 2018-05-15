@@ -25,5 +25,9 @@
   		values (#{name})
 	</insert>
 
+    <delete id="remove">
+        delete from Users where id = #{id}
+    </delete>
+
 
 </mapper>

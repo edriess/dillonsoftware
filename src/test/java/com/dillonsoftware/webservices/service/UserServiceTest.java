@@ -96,4 +96,14 @@ public class UserServiceTest {
 		assertEquals(expectedUser, newUser);
 	}
 
+	@Test
+	public void should_remove_user() {
+		final int idToRemove = 2;
+
+		userService.removeUser(idToRemove);
+
+		verify(userMapper).remove(idToRemove);
+		verifyNoMoreInteractions(MockHelper.allDeclaredMocks(this));
+
+	}
 }

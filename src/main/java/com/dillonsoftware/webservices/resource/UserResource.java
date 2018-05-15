@@ -72,6 +72,16 @@ public class UserResource {
 		return Response.status(Response.Status.OK).build();
 	}
 
+	@Path("/remove/{userId}")
+	@GET
+	@Produces("application/json;charset=utf-8")
+	public Response removeUser(@PathParam("userId") final Integer userId) {
+
+		userService.removeUser(userId);
+
+		return Response.status(Response.Status.OK).build();
+	}
+
 
 	class SortUsersByName implements Comparator<User> {
 		@Override

@@ -250,5 +250,22 @@ public class UserResourceTest {
 		assertEquals("", response.getContentAsString());
 	}
 
+	@Test
+	public void should_remove_user() throws URISyntaxException, JsonParseException, JsonMappingException, IOException {
+		final Dispatcher dispatcher = MockHelper.createMockDispatcher(userResource);
+
+		final Integer idToRemove = 1;
+		final MockHttpRequest request = MockHttpRequest.get("/users/remove/" + idToRemove);
+		final MockHttpResponse response = new MockHttpResponse();
+
+		dispatcher.invoke(request, response);
+
+		verify(userService).removeUser(idToRemove);
+		verifyNoMoreInteractions(MockHelper.allDeclaredMocks(this));
+
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		assertEquals("", response.getContentAsString());
+	}
+
 
 }

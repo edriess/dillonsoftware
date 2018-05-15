@@ -15,4 +15,7 @@ public interface UserMapper {
 	List<User> find(@Param("name") String name);
 
 	void add(@Param("name") String name);
+
+	void remove(@Param("id") Integer userId);
+
 }

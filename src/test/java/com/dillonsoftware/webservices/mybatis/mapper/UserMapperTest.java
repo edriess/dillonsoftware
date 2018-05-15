@@ -83,4 +83,17 @@ public class UserMapperTest {
 		assertEquals(name, newUser.getName());
 	}
 
+	@Test
+	public void should_remove_user() {
+		final int idToRemove = 2;
+		final List<User> initialUsersFound = userMapper.list();
+		assertEquals(4, initialUsersFound.size());
+
+		userMapper.remove(idToRemove);
+
+		final List<User> usersFound = userMapper.list();
+		assertEquals(3, usersFound.size());
+
+	}
+
 }
