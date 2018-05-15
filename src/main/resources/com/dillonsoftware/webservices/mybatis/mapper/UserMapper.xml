@@ -20,4 +20,10 @@
 		where name like #{name, jdbcType=VARCHAR}
 	</select>
 
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+	    insert into Users (name)
+  		values (#{name})
+	</insert>
+
+
 </mapper>

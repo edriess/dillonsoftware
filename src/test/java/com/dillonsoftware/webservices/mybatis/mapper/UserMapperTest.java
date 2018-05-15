@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -66,5 +67,20 @@ public class UserMapperTest {
 		assertEquals("Luke Skywalker", usersFound.get(0).getName());
 	}
 
+	@Test
+	public void should_add_user() {
+		final String name = "Joe Blow";
+		final List<User> initialUsersFound = userMapper.find(name);
+		assertEquals(0, initialUsersFound.size());
+
+		userMapper.add(name);
+
+		final List<User> usersFound = userMapper.find(name);
+		final User newUser = usersFound.get(0);
+
+		assertEquals(1, usersFound.size());
+		assertTrue(newUser.getId() > 0);
+		assertEquals(name, newUser.getName());
+	}
 
 }

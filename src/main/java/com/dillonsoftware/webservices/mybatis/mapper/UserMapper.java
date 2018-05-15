@@ -13,4 +13,6 @@ public interface UserMapper {
 	User fetch(@Param("userId") Integer userId);
 
 	List<User> find(@Param("name") String name);
+
+	void add(@Param("name") String name);
 }

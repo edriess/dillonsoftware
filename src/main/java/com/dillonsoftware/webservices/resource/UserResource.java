@@ -62,6 +62,16 @@ public class UserResource {
 		}
 	}
 
+	@Path("/add/{name}")
+	@GET
+	@Produces("application/json;charset=utf-8")
+	public Response getUser(@PathParam("name") final String name) {
+
+		userService.addUser(name);
+
+		return Response.status(Response.Status.OK).build();
+	}
+
 
 	class SortUsersByName implements Comparator<User> {
 		@Override

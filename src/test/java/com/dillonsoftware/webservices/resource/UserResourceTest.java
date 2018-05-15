@@ -233,5 +233,22 @@ public class UserResourceTest {
 		assertEquals("[" + expectedResponse + "]", response.getContentAsString());
 	}
 
+	@Test
+	public void should_add_user() throws URISyntaxException, JsonParseException, JsonMappingException, IOException {
+		final Dispatcher dispatcher = MockHelper.createMockDispatcher(userResource);
+
+		final String name = "somename";
+		final MockHttpRequest request = MockHttpRequest.get("/users/add/" + name);
+		final MockHttpResponse response = new MockHttpResponse();
+
+		dispatcher.invoke(request, response);
+
+		verify(userService).addUser(name);
+		verifyNoMoreInteractions(MockHelper.allDeclaredMocks(this));
+
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		assertEquals("", response.getContentAsString());
+	}
+
 
 }

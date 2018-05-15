@@ -33,5 +33,9 @@ public class UserService {
 		return userMapper.fetch(userId);
 	}
 
+	public void addUser(final String name) {
+		userMapper.add(name);
+	}
+
 
 }

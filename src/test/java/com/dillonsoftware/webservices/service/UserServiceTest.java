@@ -75,4 +75,25 @@ public class UserServiceTest {
 		assertEquals(expectedUser, user);
 	}
 
+	@Test
+	public void should_add_user() {
+		final String name = "some name";
+		final User expectedUser = new User();
+		final List<User> userList = new ArrayList<>();
+		userList.add(expectedUser);
+
+		when(userMapper.find(name)).thenReturn(userList);
+
+		userService.addUser(name);
+
+		verify(userMapper).add(name);
+		verifyNoMoreInteractions(MockHelper.allDeclaredMocks(this));
+
+		final List<User> foundUserList = userService.findUsers(name);
+		assertEquals(1, foundUserList.size());
+		final User newUser = foundUserList.get(0);
+
+		assertEquals(expectedUser, newUser);
+	}
+
 }
